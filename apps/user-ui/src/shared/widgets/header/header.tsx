@@ -20,17 +20,15 @@ import { NavItemsData } from "@/configs/constants";
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
-  const [show, setShow] = useState(false);
+  const [showCategories, setShowCategories] = useState(false); // Renamed for clarity
   const [isSticky, setIsSticky] = useState(false);
 
   useEffect(() => {
     const handelScroll = () => {
       if (window.scrollY > 100) {
-        setShow(true);
-        setIsSticky(true); // Fix: Set sticky state
+        setIsSticky(true);
       } else {
-        setShow(false);
-        setIsSticky(false); // Fix: Remove sticky state
+        setIsSticky(false);
       }
     };
     window.addEventListener("scroll", handelScroll);
@@ -142,34 +140,32 @@ const Header = () => {
       <div className="hidden md:block border-b py-2">
         <div className="w-[90%] md:w-[80%] mx-auto flex items-center justify-between">
           {/* all dropdown */}
-          <div
-            className={`w-[260px] ${
-              isSticky && "-mb-2"
-            } cursor-pointer flex items-center justify-between px-5 h-[50px] bg-[#099455] relative`}
-            onClick={() => {
-              setShow(!show);
-            }}
-          >
-            <div className="flex items-center gap-2">
-              <AlignLeft color="white" />
-              <span className="text-white font-semibold">All Categories</span>
-            </div>
-            <ChevronDown color="white" />
-          </div>
-
-          {/* Categories dropdown */}
-          {show && (
+          <div className="relative">
             <div
-              className={`absolute left-[5%] md:left-[10%] ${
-                isSticky ? "top-[110px]" : "top-[130px]"
-              } w-[260px] h-[400px] bg-green-50  z-50 border mt-3 `}
+              className={`w-[260px] ${
+                isSticky && "-mb-2"
+              } cursor-pointer flex items-center justify-between px-5 h-[50px] bg-[#099455]`}
+              onClick={() => {
+                setShowCategories(!showCategories); // Changed from setShow to setShowCategories
+              }}
             >
-              {/* Add your categories here */}
-              <div className="p-4">
-                <p className="text-gray-600">Categories will go here</p>
+              <div className="flex items-center gap-2">
+                <AlignLeft color="white" />
+                <span className="text-white font-semibold">All Categories</span>
               </div>
+              <ChevronDown color="white" />
             </div>
-          )}
+
+            {/* Categories dropdown */}
+            {showCategories && (
+              <div className="absolute left-0 top-full w-[260px] h-[400px] bg-green-50 z-50 border mt-3 shadow-lg overflow-y-auto">
+                {/* Add your categories here */}
+                <div className="p-4">
+                  <p className="text-gray-600">Categories will go here</p>
+                </div>
+              </div>
+            )}
+          </div>
 
           {/* Navigation menu */}
           <div className="flex items-center ">
@@ -191,8 +187,6 @@ const Header = () => {
               <h1 className="text-xl">+0123456789</h1>
               <p className="text-sm font-medium text-gray-600 ml-2">24/7 Support</p>
             </div>
-
-
           </div>
         </div>
       </div>
