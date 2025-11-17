@@ -14,10 +14,26 @@ module.exports = {
   content: [
     './{src,pages,components,app}/**/*.{ts,tsx,js,jsx,html}',
     '!./{src,pages,components,app}/**/*.{stories,spec}.{ts,tsx,js,jsx,html}',
-//     ...createGlobPatternsForDependencies(__dirname)
+    //     ...createGlobPatternsForDependencies(__dirname)
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: {
+          DEFAULT: "#099455",   // main
+          50: "#e6f7f1",
+          100: "#c0ebd8",
+          200: "#97debe",
+          300: "#6cd1a3",
+          400: "#45c58d",
+          500: "#099455",  // your original
+          600: "#07854d",
+          700: "#066b3f",
+          800: "#045232",
+          900: "#033e25",
+        }
+      }
+    }
   },
   plugins: [],
 };
