@@ -41,38 +41,6 @@ export const userRegistration = async (
   }
 };
 
-// varify user otp
-// export const verifyUser = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   try {
-//     const { email, otp, password, name } = req.body;
-//     if (!email || !otp || !password || !name) {
-//       return next(new ValidationError("all fields are required"));
-//     }
-//     const exisistingUser = await prisma.users.findUnique({ where: { email } });
-//     if (exisistingUser) {
-//       return next(new ValidationError("User already exists with this email"));
-//     }
-//     await verifyOtp(email, otp, next);
-//     const hashedPassword = await bcrypt.hash(password, 10);
-//     await prisma.users.create({
-//       data: {
-//         email,
-//         name,
-//         password: hashedPassword,
-//       },
-//     });
-//     res
-//       .status(201)
-//       .json({ success: true, message: "User registered successfully" });
-//   } catch (error) {
-//     return next(error);
-//   }
-// };
-
 // Now the controller works correctly
 export const verifyUser = async (
   req: Request,

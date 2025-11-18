@@ -5,9 +5,11 @@ import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
+import { useMutation } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
 
 type FormData = {
-  fullName: string;
+  name: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -23,7 +25,7 @@ const SignUp = () => {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [showOtp, setShowOtp] = useState(false);
   const [userData, setUserData] = useState<FormData | null>({
-    fullName: "",
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -41,12 +43,60 @@ const SignUp = () => {
 
   const password = watch("password");
 
+  const setResendTimer = () => {
+    const interval = setInterval(() => {
+      setTimer((prev) => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          setCanResend(true);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  };
+
+  const signupMutation = useMutation({
+    mutationFn: async (data: FormData) => {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_SERVER_URI}/api/user-registration`,
+        data
+      );
+      return res.data;
+    },
+    onSuccess(_, formData) {
+      setUserData(formData);
+      setShowOtp(true);
+      setCanResend(false);
+      setTimer(60);
+      setResendTimer();
+    },
+  });
+
+  const verifyOtpMutation = useMutation({
+    mutationFn: async () => {
+      if (userData === null) return;
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_SERVER_URI}/api/verify-user`,
+        {
+          ...userData,
+          otp: otp.join(""),
+        }
+      );
+      return res.data;
+    },
+    onSuccess() {
+      router.push("/login");
+    },
+  });
+
   const onSubmit = (data: FormData) => {
     if (!agreeToTerms) {
       setServerError("Please agree to the terms and conditions");
       return;
     }
     console.log(data);
+    signupMutation.mutate(data);
   };
 
   const handleOtpChange = (index: number, value: string) => {
@@ -58,7 +108,7 @@ const SignUp = () => {
       inputRefs.current[index + 1]?.focus();
   };
 
-  const handelOtpKyeDown = (
+  const handelOtpKeyDown = (
     index: number,
     e: React.KeyboardEvent<HTMLInputElement>
   ) => {
@@ -66,6 +116,8 @@ const SignUp = () => {
       inputRefs.current[index - 1]?.focus();
     }
   };
+  const handleRedendOtp = () => {};
+
   return (
     <div className="w-full py-10 min-h-[85vh] md:mt-10">
       <div className="w-full flex justify-center">
@@ -77,7 +129,7 @@ const SignUp = () => {
             height={40}
             className="mx-auto mb-3"
           ></Image>
-          {showOtp && (
+          {!showOtp && (
             <>
               <h3 className="text-[1.5rem] font-semibold text-center mb-2">
                 Create your account
@@ -102,7 +154,7 @@ const SignUp = () => {
             </p>
           )}
 
-          {showOtp ? (
+          {!showOtp ? (
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
               {/* Google Sign Up */}
               <button
@@ -126,7 +178,7 @@ const SignUp = () => {
                 <input
                   type="text"
                   placeholder="Enter your full name"
-                  {...register("fullName", {
+                  {...register("name", {
                     required: "Full name is required",
                     minLength: {
                       value: 3,
@@ -135,9 +187,9 @@ const SignUp = () => {
                   })}
                   className="border rounded-lg px-4 py-3 focus:outline-none focus:border-primary"
                 />
-                {errors.fullName && (
+                {errors.name && (
                   <span className="text-red-500 text-sm mt-1">
-                    {errors.fullName.message}
+                    {errors.name.message}
                   </span>
                 )}
               </div>
@@ -252,9 +304,36 @@ const SignUp = () => {
               {/* Sign Up Button */}
               <button
                 type="submit"
-                className="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-primary/90 transition"
+                className="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-primary/90 transition disabled:opacity-70"
+                disabled={signupMutation.isPending}
               >
-                Create Account
+                {signupMutation.isPending ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <svg
+                      className="animate-spin h-5 w-5"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    Working on it please wait...
+                  </span>
+                ) : (
+                  "Create an Account"
+                )}
               </button>
             </form>
           ) : (
@@ -286,7 +365,7 @@ const SignUp = () => {
                       }}
                       maxLength={1}
                       onChange={(e) => handleOtpChange(index, e.target.value)}
-                      onKeyDown={(e) => handelOtpKyeDown(index, e)}
+                      onKeyDown={(e) => handelOtpKeyDown(index, e)}
                     />
                   );
                 })}
@@ -295,9 +374,37 @@ const SignUp = () => {
               {/* Verify Button */}
               <button
                 type="button"
-                className="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-primary/90 transition-all duration-200 shadow-sm hover:shadow-md"
+                className="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-primary/90 transition-all duration-200 shadow-sm hover:shadow-md disabled:opacity-70"
+                disabled={verifyOtpMutation.isPending}
+                onClick={() => verifyOtpMutation.mutate()}
               >
-                Verify Email
+                {verifyOtpMutation.isPending ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <svg
+                      className="animate-spin h-5 w-5"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    Working on it please wait...
+                  </span>
+                ) : (
+                  "Verify OTP"
+                )}
               </button>
 
               {/* Resend Section */}
@@ -307,19 +414,26 @@ const SignUp = () => {
                 </p>
                 {canResend ? (
                   <button
+                    onClick={handleRedendOtp}
                     type="button"
                     className="text-primary font-semibold text-sm hover:underline"
                   >
-                    Resend Code
+                    Resend OTP
                   </button>
                 ) : (
                   <p className="text-sm text-gray-400">
-                    Resend code in{" "}
+                    Resend OTP in{" "}
                     <span className="font-semibold text-gray-600">
                       {timer}s
                     </span>
                   </p>
                 )}
+                {verifyOtpMutation?.isError &&
+                  verifyOtpMutation.error instanceof AxiosError && (
+                    <p className="w-full bg-red-50 text-red-600 px-3 py-2 rounded mb-3 text-sm text-center">
+                      {verifyOtpMutation.error.response?.data.message}
+                    </p>
+                  )}
               </div>
 
               {/* Back to signup */}

@@ -33,30 +33,6 @@ const renderEamilTemplate = async (
   return ejs.renderFile(templatePath, data);
 };
 
-// sed an email using nodemailer
-
-// export const sendEmail = async (
-//   to: string,
-//   subject: string,
-//   template: string,
-//   data: Record<string, any>
-// ) => {
-
-//   try {
-//     const html = await renderEamilTemplate(template, data);
-//     await transporter.sendMail({
-//       from: `${process.env.SMTP_USER} `,
-//       to,
-//       subject,
-//       html,
-//     })
-//     return true;
-    
-//   } catch (error) {
-//     console.error("Error sending email:", error);
-//     return false;
-//   }
-// };
 
 
 export const sendEmail = async (
