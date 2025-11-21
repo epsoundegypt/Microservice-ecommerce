@@ -15,6 +15,7 @@ import {
   Headset,
 } from "lucide-react";
 import { NavItemsData } from "@/configs/constants";
+import useUser from "@/hooks/useUser";
 
 
 const Header = () => {
@@ -22,6 +23,10 @@ const Header = () => {
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const [showCategories, setShowCategories] = useState(false); // Renamed for clarity
   const [isSticky, setIsSticky] = useState(false);
+  
+  const {user,isLoading} =useUser()
+  console.log(user)
+
 
   useEffect(() => {
     const handelScroll = () => {
@@ -175,17 +180,19 @@ const Header = () => {
                 key={index}
                 className="px-5 py-2 font-semibold text-gray-800 hover:text-[#099455]"
               >
-                {i.title} 
+                {i.title}
               </Link>
             ))}
           </div>
 
           {/* Empty space for layout balance */}
           <div className="flex items-center  gap-2 font-bold text-[#099455]">
-            <Headset color="green" size={24} aria-hidden="true"/>
+            <Headset color="green" size={24} aria-hidden="true" />
             <div>
               <h1 className="text-xl">+0123456789</h1>
-              <p className="text-sm font-medium text-gray-600 ml-2">24/7 Support</p>
+              <p className="text-sm font-medium text-gray-600 ml-2">
+                24/7 Support
+              </p>
             </div>
           </div>
         </div>

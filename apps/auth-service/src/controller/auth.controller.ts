@@ -114,7 +114,8 @@ export const loginUser = async (
     );
 
     // STORE REFRESH AND ACCESS TOKEN IN HTTP-ONLY COOKIE
-    setCookies(res, accessToken, refreshToken);
+    setCookies(res, "access_token", accessToken);
+    setCookies(res, "refresh_token", refreshToken);
     //  Send response to client
     res.status(200).json({
       success: true,
@@ -132,22 +133,28 @@ export const loginUser = async (
 
 //refresh token user
 
-export const refreshToken = async (req: Request, res: Response, next: NextFunction) => {
+export const refreshToken = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const refreshToken = req.cookies.refresh_token;
     if (!refreshToken) {
-      return next(new ValidationError("Unauthorized ! Invalid / No refresh token"));
+      return next(
+        new ValidationError("Unauthorized ! Invalid / No refresh token")
+      );
     }
     const decoded = jwt.verify(
       refreshToken,
       process.env.JWT_REFRESH_TOKEN_SECRET as string
     ) as { id: string; role: string };
 
-    if (!decoded || decoded.id || decoded.role) {
+    if (!decoded || !decoded.id || !decoded.role) {
       return next(new JsonWebTokenError("Forbidden ! Invalid refresh token"));
     }
 
-    // let account; 
+    // let account;
     // if (decoded.role === "user") {
     //   account = await prisma.users.findUnique({
     //     where: { id: decoded.id },
@@ -164,7 +171,6 @@ export const refreshToken = async (req: Request, res: Response, next: NextFuncti
       return next(new AuthError("Forbidden ! User/Seller not found"));
     }
 
-
     const newAccessToken = jwt.sign(
       { id: decoded.id, role: decoded.role },
       process.env.JWT_ACCESS_TOKEN_SECRET as string,
@@ -176,7 +182,6 @@ export const refreshToken = async (req: Request, res: Response, next: NextFuncti
     return res.status(201).json({
       success: true,
       message: "Token refreshed successfully",
-      
     });
   } catch (error) {
     return next(error);
@@ -201,7 +206,6 @@ export const getLoggedInUser = async (
     return next(error);
   }
 };
-
 
 // User Forgot Password
 
