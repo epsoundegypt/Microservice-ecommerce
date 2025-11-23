@@ -17,16 +17,14 @@ import {
 import { NavItemsData } from "@/configs/constants";
 import useUser from "@/hooks/useUser";
 
-
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const [showCategories, setShowCategories] = useState(false); // Renamed for clarity
   const [isSticky, setIsSticky] = useState(false);
-  
-  const {user,isLoading} =useUser()
-  console.log(user)
 
+  const { user, isLoading } = useUser();
+  console.log(user);
 
   useEffect(() => {
     const handelScroll = () => {
@@ -97,18 +95,40 @@ const Header = () => {
             </Link>
           </div>
           <div className="flex items-center gap-3 relative">
-            <Link
-              href="/login"
-              className="border-2 w-[25px] h-[25px] flex items-center justify-center rounded-full border-gray-800 relative"
-            >
-              <User className="w-4 h-4 text-gray-800" />
-              <span className="absolute -top-2.5 -right-3.5 w-5 h-5 rounded-full bg-[#099455] text-white text-xs flex items-center justify-center">
-                <ShieldCheck />
-              </span>
-            </Link>
-            <Link href="/login" className="flex flex-col leading-tight">
-              <span className="font-semibold text-sm">Sign In</span>
-            </Link>
+            {user && !isLoading ? (
+              <div className="flex items-center gap-4">
+                <Link
+                  href="/my-account"
+                  className="border-2 w-[25px] h-[25px] flex items-center justify-center rounded-full border-gray-800 relative"
+                >
+                  <User className="w-4 h-4 text-gray-800" />
+                  <span className="absolute -top-2.5 -right-3.5 w-5 h-5 rounded-full bg-[#099455] text-white text-xs flex items-center justify-center">
+                    <ShieldCheck />
+                  </span>
+                </Link>
+                <Link
+                  href="/"
+                  className="flex flex-col leading-tight"
+                > <span className="block text-xs ml-[2px]">Hello,</span>
+                  <span className="font-semibold text-sm">{user.name}</span>
+                </Link>
+              </div>
+            ) : (
+              <div className="flex items-center gap-4">
+                <Link
+                  href="/login"
+                  className="border-2 w-[25px] h-[25px] flex items-center justify-center rounded-full border-gray-800 relative"
+                >
+                  <User className="w-4 h-4 text-gray-800" />
+                  <span className="absolute -top-2.5 -right-3.5 w-5 h-5 rounded-full bg-[#099455] text-white text-xs flex items-center justify-center">
+                    <ShieldCheck />
+                  </span>
+                </Link>
+                <Link href="/login" className="flex flex-col leading-tight">
+                  <span className="font-semibold text-sm">Sign In</span>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
 
